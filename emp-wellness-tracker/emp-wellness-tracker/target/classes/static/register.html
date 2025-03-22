@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Register</h2>
+
+        <label for="name">Full Name</label>
+        <input type="text" id="name" placeholder="Enter your full name" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter your email" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter your password" required>
+
+        <label for="department">Department</label>
+        <input type="text" id="department" placeholder="Enter your department" required>
+
+        <label for="location">Location</label>
+        <input type="text" id="location" placeholder="Enter your location" required>
+
+        <button id="signupBtn">Register</button>
+        <p>Already have an account? <a href="index.html">Login</a></p>
+    </div>
+
+    <script>
+        const signup=document.getElementById("signupBtn");
+        signup.addEventListener("click", async () => {
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const department = document.getElementById("department").value;
+            const location = document.getElementById("location").value;
+
+            if (!name || !email || !password || !department || !location) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            try {
+                const response = await fetch("http://localhost:8080/api/auth/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name, email, password, department, location})
+                });
+
+                const data = await response.json();
+                alert(data.message);
+                window.location.href = "index.html"; 
+            } catch (error) {
+                alert("Something went wrong! Please try again later.");
+            }
+        });
+    </script>
+</body>
+</html>
